@@ -38,6 +38,8 @@ const formSchema = z.object({
   is_active: z.boolean(),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 interface EmployeeFormProps {
   employee?: Employee;
   onSubmit: (data: EmployeeFormData) => void;
@@ -46,7 +48,7 @@ interface EmployeeFormProps {
 }
 
 export function EmployeeForm({ employee, onSubmit, onCancel, isLoading }: EmployeeFormProps) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       first_name: employee?.first_name || '',
@@ -63,9 +65,15 @@ export function EmployeeForm({ employee, onSubmit, onCancel, isLoading }: Employ
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+  const handleSubmit = (data: FormValues) => {
     const formData: EmployeeFormData = {
-      ...data,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      department: data.department,
+      job_title: data.job_title,
+      hire_date: data.hire_date,
+      is_active: data.is_active,
       phone: data.phone || undefined,
       avatar_url: data.avatar_url || undefined,
       location: data.location || undefined,
