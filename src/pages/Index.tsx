@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
 import { EmployeeGrid } from '@/components/employees/EmployeeGrid';
@@ -8,13 +8,13 @@ import { useEmployees } from '@/hooks/useEmployees';
 import { Department } from '@/types/employee';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState<Department | 'all'>('all');
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -26,8 +26,6 @@ export default function Index() {
   }, [user, authLoading, navigate]);
 
   // Debounce search query
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
@@ -45,7 +43,7 @@ export default function Index() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
