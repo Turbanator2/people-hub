@@ -1,0 +1,42 @@
+
+name: Build & Deploy to S3 (OIDC)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write         # required for OIDC
+  contents: read          # checkout
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Vite)
+        run: npm run build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam:814695462188:role/github-people-hub-deployer
+          aws-region: eu-west-2
+
+      - name: Sync to S3 (delete removed files)
+        run: aws s3 sync dist/ s3://people-hub-turb/ --region eu-west-2 --delete
