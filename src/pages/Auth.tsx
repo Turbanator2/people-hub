@@ -126,7 +126,7 @@ export default function Auth() {
           </CardHeader>
           <CardContent className="pt-4">
             {isLogin ? (
-              <Form {...loginForm}>
+              <Form {...loginForm} key="login-form">
                 <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                   <FormField
                     control={loginForm.control}
@@ -138,6 +138,7 @@ export default function Auth() {
                           <Input
                             type="email"
                             placeholder="you@company.com"
+                            autoComplete="email"
                             {...field}
                           />
                         </FormControl>
@@ -155,6 +156,7 @@ export default function Auth() {
                           <Input
                             type="password"
                             placeholder="••••••••"
+                            autoComplete="current-password"
                             {...field}
                           />
                         </FormControl>
@@ -169,7 +171,7 @@ export default function Auth() {
                 </form>
               </Form>
             ) : (
-              <Form {...signupForm}>
+              <Form {...signupForm} key="signup-form">
                 <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
                   <FormField
                     control={signupForm.control}
@@ -178,7 +180,11 @@ export default function Auth() {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} />
+                          <Input 
+                            placeholder="John Doe" 
+                            autoComplete="name"
+                            {...field} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -194,6 +200,7 @@ export default function Auth() {
                           <Input
                             type="email"
                             placeholder="you@company.com"
+                            autoComplete="email"
                             {...field}
                           />
                         </FormControl>
@@ -211,6 +218,7 @@ export default function Auth() {
                           <Input
                             type="password"
                             placeholder="••••••••"
+                            autoComplete="new-password"
                             {...field}
                           />
                         </FormControl>
@@ -228,6 +236,7 @@ export default function Auth() {
                           <Input
                             type="password"
                             placeholder="••••••••"
+                            autoComplete="new-password"
                             {...field}
                           />
                         </FormControl>
