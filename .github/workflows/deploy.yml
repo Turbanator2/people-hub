@@ -1,4 +1,4 @@
-name: Test & Deploy (OIDC)
+name: "Test & Deploy (OIDC)"
 
 on:
   push:
@@ -28,14 +28,14 @@ jobs:
       - name: Setup Node (with npm cache)
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Install dependencies (non-interactive)
         run: npm ci --no-audit --no-fund
 
-      # 👇 Force Vitest to run once, verbose logs, and exit
-      - name: Unit & component tests (Vitest)
+      # Force Vitest to run once, verbose logs, and exit
+      - name: "Unit & component tests (Vitest)"
         run: npx vitest run --reporter=verbose --pool=threads
 
       # Optional coverage step (separate run; also exits cleanly)
@@ -54,9 +54,8 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam:814695462188:role/github-people-hub-deployer
+          role-to-assume: arn:aws:iam::814695462188:role/github-people-hub-deployer
           aws-region: eu-west-2
 
       - name: Sync to S3 (delete removed files)
         run: aws s3 sync dist/ s3://people-hub-turb/ --region eu-west-2 --delete
-''
