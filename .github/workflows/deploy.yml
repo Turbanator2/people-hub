@@ -29,18 +29,16 @@ jobs:
       - name: Setup Node (with npm cache)
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies (non-interactive)
         run: npm ci --no-audit --no-fund
 
-      # Force Vitest to run once, print verbose progress, and exit.
-      # timeout 300 = kill the step after 5 minutes if it ever hangs.
+      # Force Vitest to run once, verbose progress, and exit; kill after 5 min if hung.
       - name: "Unit & component tests (Vitest)"
         run: timeout 300 npx vitest run --reporter=verbose --pool=threads --maxWorkers=1
 
-      # Optional coverage (separate run; also exits cleanly)
       - name: Coverage
         run: timeout 180 npx vitest run --coverage
 
