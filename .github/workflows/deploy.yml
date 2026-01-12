@@ -1,4 +1,3 @@
-
 name: Test & Deploy (OIDC)
 
 on:
@@ -55,9 +54,9 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam:<YOUR_AWS_ACCOUNT_ID>:role/github-people-hub-deployer
+          role-to-assume: arn:aws:iam:814695462188:role/github-people-hub-deployer
           aws-region: eu-west-2
 
       - name: Sync to S3 (delete removed files)
         run: aws s3 sync dist/ s3://people-hub-turb/ --region eu-west-2 --delete
-``
+''
