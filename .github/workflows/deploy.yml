@@ -1,3 +1,4 @@
+
 name: "Test & Deploy (OIDC)"
 
 on:
@@ -34,13 +35,14 @@ jobs:
       - name: Install dependencies (non-interactive)
         run: npm ci --no-audit --no-fund
 
-      # Force Vitest to run once, verbose logs, and exit
+      # Force Vitest to run once, print verbose progress, and exit.
+      # timeout 300 = kill the step after 5 minutes if it ever hangs.
       - name: "Unit & component tests (Vitest)"
-        run: npx vitest run --reporter=verbose --pool=threads
+        run: timeout 300 npx vitest run --reporter=verbose --pool=threads --maxWorkers=1
 
-      # Optional coverage step (separate run; also exits cleanly)
+      # Optional coverage (separate run; also exits cleanly)
       - name: Coverage
-        run: npx vitest run --coverage
+        run: timeout 180 npx vitest run --coverage
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
