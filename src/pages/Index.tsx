@@ -78,7 +78,7 @@ export default function Index() {
               transition={{ delay: 0.1 }}
               className="rounded-xl border bg-card p-6 shadow-card"
             >
-              <p className="text-sm font-medium text-muted-foreground">Total Employees</p>
+              <p className="text-sm font-medium text-muted-foreground">Total Employees gay</p>
               <p className="text-3xl font-bold mt-1">{stats.total}</p>
             </motion.div>
             <motion.div
